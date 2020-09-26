@@ -1,0 +1,22 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: books-otus
+build:
+  artifacts:
+  - image: books-otus
+    context: src
+  - image: books-otus-chart-data-generator
+    context: src
+    docker:
+      dockerfile: Dockerfile_data_generator
+deploy:
+  helm:
+    releases:
+      - name: books-otus
+        chartPath: books-otus-chart
+        artifactOverrides:
+          image: books-otus
+          data_generation.image: books-otus-chart-data-generator
+        valuesFiles:
+          - books-otus-chart/values.yaml

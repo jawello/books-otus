@@ -1,0 +1,15 @@
+version: "3"
+services:
+  data_generator:
+    build:
+      context: .
+      dockerfile: Dockerfile_data_generator
+    volumes:
+      - ${PWD}/data_generator/config/data_generator.yaml:/config/data_generator.yaml
+    networks:
+      - app
+    depends_on:
+      - postgres-product
+    entrypoint: ["python", "data_generator.py", "-c", "/config/data_generator.yaml"]
+networks:
+  app:

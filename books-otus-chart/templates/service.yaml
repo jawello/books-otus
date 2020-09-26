@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "books-otus-chart.fullname" . }}
+  labels:
+    {{- include "books-otus-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: web
+  selector:
+    {{- include "books-otus-chart.selectorLabels" . | nindent 4 }}
